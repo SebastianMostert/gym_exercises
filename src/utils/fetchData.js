@@ -1,4 +1,5 @@
 import { bodyPartsDataCache, exercisesDataCache } from "./storage";
+const defaultFromStorage = true;
 
 /**
  * @typedef {object} ExerciseObject 
@@ -36,7 +37,7 @@ export const youtubeOptions = {
 export const fetchData = async (url, options) => {
   const response = await fetch(url, options);
   const data = await response.json();
-
+  
   return data;
 }
 
@@ -49,7 +50,7 @@ export const fetchData = async (url, options) => {
  */
 export const fetchBodyParts = async (options) => {
   let fromStorage = options && options?.fromStorage;
-  if (fromStorage === undefined) fromStorage = true;
+  if (fromStorage === undefined) fromStorage = defaultFromStorage;
 
   let bodyPartsData;
 
@@ -74,14 +75,13 @@ export const fetchBodyParts = async (options) => {
  */
 export const fetchExercises = async (options) => {
   let fromStorage = options && options?.fromStorage;
-  if (fromStorage === undefined) fromStorage = true;
+  if (fromStorage === undefined) fromStorage = defaultFromStorage;
 
   let exercisesData;
 
   if (exercisesDataCache.length === 0 || !fromStorage) {
     console.log("Fetching from Api....")
     exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
-    console.log(exercisesData)
     exercisesDataCache.push(exercisesData)
   } else {
     console.log("Fetching from Storage....")
@@ -102,10 +102,10 @@ export const fetchExercises = async (options) => {
 export const fetchExercisesByBodyPart = async (options) => {
   let bodyPart = options && options?.bodyPart;
   let fromStorage = options && options?.fromStorage;
-  if (fromStorage === undefined) fromStorage = true;
+  if (fromStorage === undefined) fromStorage = defaultFromStorage;
   if (bodyPart === undefined) bodyPart = 'all';
 
-  let allExercisesData = await fetchExercises({fromStorage});
+  let allExercisesData = await fetchExercises({ fromStorage });
   let exercisesData = [];
 
   if (bodyPart === 'all') exercisesData = allExercisesData;
@@ -130,7 +130,7 @@ export const fetchExercisesByBodyPart = async (options) => {
  */
 export const fetchExercisesByID = async (options) => {
   let fromStorage = options && options?.fromStorage;
-  if (fromStorage === undefined) fromStorage = true;
+  if (fromStorage === undefined) fromStorage = defaultFromStorage;
   const { id } = options;
 
   let allExercisesData = await fetchExercises({ fromStorage });
@@ -154,7 +154,7 @@ export const fetchExercisesByID = async (options) => {
  */
 export const fetchExercisesByTargetGroup = async (options) => {
   let fromStorage = options && options?.fromStorage;
-  if (fromStorage === undefined) fromStorage = true;
+  if (fromStorage === undefined) fromStorage = defaultFromStorage;
   const { targetGroup } = options;
 
   let allExercisesData = await fetchExercises({ fromStorage });
@@ -178,7 +178,7 @@ export const fetchExercisesByTargetGroup = async (options) => {
  */
 export const fetchExercisesByEquipment = async (options) => {
   let fromStorage = options && options?.fromStorage;
-  if (fromStorage === undefined) fromStorage = true;
+  if (fromStorage === undefined) fromStorage = defaultFromStorage;
   const { equipment } = options;
 
   let allExercisesData = await fetchExercises({ fromStorage });

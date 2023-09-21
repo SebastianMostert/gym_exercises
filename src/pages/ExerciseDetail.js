@@ -25,7 +25,6 @@ const ExerciseDetail = () => {
       const targetMuscleExercisesData = await fetchExercisesByTargetGroup({ targetGroup: exerciseDetailData.target })
       const equipmentExercisesData = await fetchExercisesByEquipment({ equipment: exerciseDetailData.equipment })
       
-      console.log(targetMuscleExercisesData)
       setExerciseDetail(exerciseDetailData)
       setExerciseVideos(exerciseVideosData.contents)
       setTargetMuscleExercises(targetMuscleExercisesData);
